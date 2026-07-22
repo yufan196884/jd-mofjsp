@@ -1,0 +1,7 @@
+load_weights: true
+pretrained_model_path: "data/models/GreenFJSP/GreenFJSP_MLP_15x15x15/latest_model.pkl"
+
+# Verbleibende Rollouts: 1980 - 1011 = 969
+total_instances: 969
+total_timesteps: 1_984_320   # 969 × rollout_steps
+intermediate_test_interval: 20

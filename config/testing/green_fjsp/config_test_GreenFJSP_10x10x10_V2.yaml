@@ -1,0 +1,112 @@
+##############################################################################
+###                         Testing                                        ###
+##############################################################################
+
+# (R)   [String]  RL algorithm you want to use - This template is for PPO
+algorithm: MaskedPPO_MLP
+# (R)   [String]  Model type to use - DANIEL for the new constraint-aware network
+model_type: MLP
+# (R)   [String]  Path to the file with generated data that to be used for training
+instances_file: green_fjsp/GreenFJSP_10x10x10_1000_instances.pkl
+# (O)   [String]  Path to the yaml file that was used to generate the data. Only needed if On_fly_train_data is True
+data_generation_yaml: data_generation/green_fjsp/config_GreenFJSP_10x10x10.yaml
+# (O)   [String]  The finished model is saved under this name. Alternatively set to <automatic>, then it will be
+#                 replaced with the current DayMonthYearHourMinute
+saved_model_name: GreenFJSP_MLP_10x10x10
+# (R)   [int]     Seed for all pseudo random generators (random, numpy, torch)
+seed: 1
+# (O)   [bool]    Bool, if the train-test-split of instances should remain the same (1111) and be independent of the
+#                 random seed. This is useful for hyperparameter-sweeps with multiple random seeds to keep the same
+#                 test instances for comparability. Irrelevant, if the random seed across runs remains the same.
+overwrite_split_seed: True
+# (R)   [string]  Set an individual description that you can identify this training run more easily later on.
+#                 This will be used in "weights and biases" as well
+config_description: GreenFJSP_testing_10x10x10
+# (O)   [string]  Set a directory where you want to save the agent model
+experiment_save_path: models
+# (O)   [int]:    Wandb mode choose: choose from [0: no wandb, 1: wandb_offline, 2: wandb_online]
+wandb_mode: 2
+# (O)   [string]  Set a wandb project where you want to upload all wandb logs
+wandb_project: GreenFJSP_Test_10x10x10
+
+# --- Test Split ---
+# (R)   [float]   Range between 0 and 1. How much (percentually) of the generated data will be used for training.
+train_test_split: 0.90
+# (R)   [float]   Range between 0 and 1. How much (percentually) of the remaining data (1-train_test_split) will be
+#                 used for training.
+test_validation_split: 0.5
+
+device: "cuda"
+
+# --- Network parameters for MLP ---
+Network_parameters: {
+    "device": "cuda",
+    "layers": [2048, 1024, 512, 512, 256] #[512, 512, 512] # [256, 256, 256, 256]
+}
+
+# --- Objective ---
+Objective: {
+    "mode": "multi",                              #'single_makespan' | 'single_energy' | 'multi'
+    "Number_Weights": 11,                                   # nur relevant bei mode: multi
+    "Eval_Weights": [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]],   # Gewichte für SO-Logging in WandB
+}
+
+# --- env (Environment) parameter ---
+# (R)   [str]     Environment you want to use.
+environment: GreenFJSP
+# (O) [bool]    Bool, if the environment should use tetris logic for scheduling
+enable_tetris: True
+# Heuristic action space:
+heuristic_action_space: True
+# (O)   [int]     Number of steps the environment should take before it returns a done signal
+num_steps_max: 2000
+# (O)   [int]     How many parallel environments should be used to create the training data
+parallel_environments: 1
+# (R)   [str]     Type of scheduling problem
+sp_type: GreenFJSP
+# (O)   [str]     The reward strategy determines, how the reward is computed. Default is 'dense_makespan_reward'
+reward_strategy: dense_makespan_energy_reward
+# (O)   [int]     The reward scale is a float by which the reward is multiplied to increase/decrease the reward signal
+#                 strength
+reward_scale: 1.00
+
+# --- benchmarking
+# (R)   List[str] List of all heuristics and algorithms against which to benchmark
+test_heuristics:
+  - LPT
+  - MTR
+  - LTR
+  - LST
+  - EDT
+  - MWKR
+  - energy
+  - MEM
+  - SW
+
+  - FI-LPT
+  - FI-MTR
+  - FI-LTR
+  - FI-LST
+  - FI-EDT
+  - FI-MWKR
+  - FI-energy
+  - FI-MEM
+  - FI-SW
+# (O)   Plot ganttchart
+Ganttcharts: False
+# (O)   Bool: If solver should be tested as well
+test_solver: False
+# (O)   Bool: If NSGA II should be tested as well
+test_nsga2: True
+# Hyperparameter NSGA II
+NSGA2:
+  population_size: 140   
+  generations: 140
+  n_runs: 5     
+  seed: 1 
+# Number of non greedy Episodes for Sampling Mode:
+non_greedy_episodes: 3
+# (O)   Float: Time limit (in seconds) for the solver to spend to search for a feasible solution
+time_limit: 1000.0
+# (O)   [str]     Metric name in the final evaluation table which summarizes the training success best.
+success_metric: makespan_mean

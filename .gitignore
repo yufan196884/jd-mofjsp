@@ -1,0 +1,11 @@
+**.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.egg-info/
+data
+data_csv/
+.env
+Pleiadis/
+figures/
+visualization_func/
+detailed_results/

@@ -1,0 +1,57 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+
+
+    {
+        "name": "Python: Green FJSP Data Generator",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "src.data_generator.instance_factory",
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "cwd":  "${workspaceFolder}",
+        "args": [
+          "-fp", 
+          "data_generation/green_fjsp/config_GreenFJSP.yaml"
+        ]
+    },
+
+    {
+      "name": "Python: Eval Green FJSP",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.agents.test_RL",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd":  "${workspaceFolder}",
+      "args": [
+        "-fp", 
+        "testing/green_fjsp/config_test_GreenFJSP.yaml",
+      ]
+    },
+
+    {
+      "name": "Python: Train Green FJSP",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.agents.train_RL",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd":  "${workspaceFolder}",
+      "args": [
+        "-fp", 
+        "training/green_fjsp/config_train_GreenFJSP_10x5x5.yaml",
+      ]
+    },
+
+    {
+      "name": "Python: Run NSGA-II (Module)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.agents.metaheuristic.nsga2",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
