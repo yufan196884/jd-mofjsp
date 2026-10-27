@@ -1,0 +1,1 @@
+5544f948471d16db464f67429ede16e91b3698b7f1ec2b73192685b62441c8c3  src/data_generator/GreenFJSP_Utils/data/Spotmarktpreis.csv

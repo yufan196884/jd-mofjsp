@@ -53,7 +53,7 @@ class EnergyManager:
     def _load_solar_profiles(self) -> List[np.ndarray]:
         """Fetch one year of PVGIS data and split into daily profiles."""
         try:
-            data, _, _ = get_pvgis_hourly(
+            data = get_pvgis_hourly(
                 latitude       = self._LATITUDE,
                 longitude      = self._LONGITUDE,
                 pvcalculation  = True,
@@ -66,6 +66,7 @@ class EnergyManager:
                 loss           = self._SYSTEM_LOSS,
                 outputformat   = "json",
             )
+            data = data[0]
         except Exception as exc:
             warnings.warn(f"PVGIS API error: {exc}. Using fallback sine profiles.")
             return self._generate_fallback_solar()

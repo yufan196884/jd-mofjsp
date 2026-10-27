@@ -9,3 +9,36 @@ Pleiadis/
 figures/
 visualization_func/
 detailed_results/
+# JD MOFJSP generated datasets and external inputs
+data/jd_mofjsp/
+data/instances/
+src/data_generator/GreenFJSP_Utils/data/Spotmarktpreis.csv
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Temporary dataset samples and smoke-test outputs
+first_instance_compact_v2.jsonl
+config/data_generation/green_fjsp/config_GreenFJSP_5x5_step1_smoke.yaml
+
+# Generated data and caches
+*.pkl
+*.pickle
+*.npz
+*.parquet
+
+# Local Python environments
+.venv/
+venv/
+.env/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
